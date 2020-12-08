@@ -1,7 +1,7 @@
 #include <stdio.h>
-#define N 18
-#define d2 8
-#define V 8
+#define N 11
+#define d2 5
+#define V 4
 
 void construct_right_path(int Paths[7][N]);
 void construct_left_path(int Paths[7][N]);
