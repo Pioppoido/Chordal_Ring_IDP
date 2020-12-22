@@ -1,13 +1,14 @@
 #include <stdio.h>
-#define N 12
-#define d2 5
-#define V 6
 
+int N,d2,V;
+
+void construct_6paths();
 void construct_path_lessthan_3(int Paths[7][N]);
 void construct_path_3(int Paths[7][N]);
 void construct_path_lessthan_d2(int Paths[7][N]);
 void construct_path_d2(int Paths[7][N]);
 void construct_path_largethan_d2(int Paths[7][N]);
+void check_internally_disjoint(int Paths[7][N]);
 
 void optimum_connection(int Paths[7][N],int num,int current_location,int i,int dest);
 void three_skip_connection(int Paths[7][N],int num,int current_location,int i,int type,int type2);
@@ -16,8 +17,13 @@ void trans_Array_used_check(int Paths[7][N],int used_check[N]);
 int one_and_three_skip_connection(int Paths[7][N],int used_check[N],int num,int current_location,int i,int type,int check_num,int dest);
 
 int main(void){
+  for(N = 9;N <= 10;N++) for(d2 = 4;d2 < (N + 1)/2;d2++) for(V = 1;V <= N/2;V++) construct_6paths();
+}
+
+void construct_6paths(){
   int i,j = 0;
-  int P[7][N] = {0};
+  int P[7][N];
+  for(i = 1;i < 7;i++) for(j = 1;j < N;j++) P[i][j] = 0;
   P[1][2] = 1;
   P[2][2] = 3;
   P[3][2] = d2;
@@ -39,6 +45,20 @@ int main(void){
       printf("%d ",P[i][j]);
     }
     printf("> 長さ : %d\n",j - 2);
+  }
+
+  check_internally_disjoint(P);
+}
+
+void check_internally_disjoint(int Paths[7][N]){
+  int i,j = 0;
+  int check[N];
+  for(i = 0;i < N;i++) check[N] = 0;
+
+  for(i = 1;i < 7;i++){
+    for(j = 2;j < N;j++){
+      check[Paths[i][j]]++;
+    }
   }
 }
 
@@ -76,7 +96,8 @@ void construct_path_3(int Paths[7][N]){
 
 void construct_path_lessthan_d2(int Paths[7][N]){
   int i = 0;
-  int used_check[N] = {0};
+  int used_check[N];
+  for(i = 1;i < N;i++) used_check[i] = 0;
   used_check[0] = 1;
 
   if(V % 3 == 1){
