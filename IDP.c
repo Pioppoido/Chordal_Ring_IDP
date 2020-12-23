@@ -17,7 +17,7 @@ void trans_Array_used_check(int Paths[7][N],int used_check[N]);
 int one_and_three_skip_connection(int Paths[7][N],int used_check[N],int num,int current_location,int i,int type,int check_num,int dest);
 
 int main(void){
-  for(N = 9;N <= 10;N++) for(d2 = 4;d2 < (N + 1)/2;d2++) for(V = 1;V <= N/2;V++) construct_6paths();
+  for(N = 9;N <= 12;N++) for(d2 = 4;d2 < (N + 1)/2;d2++) for(V = 1;V <= N/2;V++) construct_6paths();
 }
 
 void construct_6paths(){
@@ -51,15 +51,20 @@ void construct_6paths(){
 }
 
 void check_internally_disjoint(int Paths[7][N]){
-  int i,j = 0;
+  int i,j,judge = 0;
   int check[N];
-  for(i = 0;i < N;i++) check[N] = 0;
+  for(i = 0;i < N;i++) check[i] = 0;
 
   for(i = 1;i < 7;i++){
-    for(j = 2;j < N;j++){
-      check[Paths[i][j]]++;
+    for(j = 1;j < N;j++){
+      if(Paths[i][j] != 0 && Paths[i][j] != V) check[Paths[i][j]]++;
     }
   }
+
+  for(i = 0;i < N;i++) if(check[i] > 1) judge = 1;
+
+  if(judge == 0) printf("内素である\n");
+  else if(judge == 1) printf("内素でない\n");
 }
 
 void construct_path_lessthan_3(int Paths[7][N]){
@@ -73,15 +78,15 @@ void construct_path_lessthan_3(int Paths[7][N]){
     Paths[2][3] = 2;
     Paths[6][3] = 2;
   }
-  if(N != 9){
-    optimum_connection(Paths,3,d2,2,V + 3);
-    optimum_connection(Paths,4,N - d2,2,V + d2);
-    optimum_connection(Paths,5,N - 3,2,N - d2 + V);
-  }else{
+  if(N == 9 && V == 2){
     Paths[3][3] = d2 + 3;
     Paths[3][4] = V;
     Paths[4][3] = V;
     Paths[5][3] = V;
+  }else{
+    optimum_connection(Paths,3,d2,2,V + 3);
+    optimum_connection(Paths,4,N - d2,2,V + d2);
+    optimum_connection(Paths,5,N - 3,2,N - d2 + V);
   }
 }
 
